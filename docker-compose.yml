@@ -2,7 +2,9 @@ version: "3.9"
 
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     volumes:
       - ./backend:/app
     ports:
@@ -11,7 +13,9 @@ services:
       - DEBUG=True
 
   frontend:
-    build: ./frontend/name-frontend
+    build:
+      context: ./frontend/name-frontend
+      dockerfile: Dockerfile
     volumes:
       - ./frontend/name-frontend:/app
     ports:
