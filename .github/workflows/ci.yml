@@ -1,0 +1,39 @@
+name: Django React App CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: mydb
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Repo'yu klonla
+      uses: actions/checkout@v3
+
+    - name: Docker Compose ile servisleri başlat
+      run: docker-compose up -d --build
+
+    - name: Servislerin durumu
+      run: docker ps
+
+    - name: Backend testleri (örnek)
+      run: docker exec $(docker ps -qf "name=backend") python manage.py test
