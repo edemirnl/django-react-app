@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+
+  frontend:
+    build: ./frontend/name-frontend
+    volumes:
+      - ./frontend/name-frontend:/app
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
