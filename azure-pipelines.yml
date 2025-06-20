@@ -1,0 +1,22 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'roleasc'   # Service Connection adın
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Assigning Contributor role to user..."
+      az role assignment create \
+        --assignee 8662b771-5dc0-4b2c-8c60-2cf75dd12ae9 \
+        --role "Contributor" \
+        --scope /subscriptions/fe261f48-3d9f-414f-b081-a4ccd33202f4
